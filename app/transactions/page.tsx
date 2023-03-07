@@ -1,22 +1,48 @@
+import { TransactionFlag } from "@/components/transaction-flag";
 import { gqlClient } from "@/lib/gql-client"
 import {getTransactions} from "@/lib/gql-queries"
 import { TTransaction } from "@/lib/types";
+import { formatDate, toCurrency } from "@/lib/utils";
+import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 
-export default async function Transactions() {
-	const data: any = await gqlClient.request(getTransactions);
-	const {transactions: {edges: transactionEdge }} = data;
-	const transactions: TTransaction[] = transactionEdge.map((o: {node: TTransaction}) => o.node);
+export default async function Transactions({searchParams}: {searchParams?: { [key: string]: string | string[] | undefined }}) {
+	const filter = searchParams?.filter;
+	const offset = +(searchParams?.offset ?? 0);
+
+	const data: any = await gqlClient.request(getTransactions, {
+		filter: filter ?? 'none',
+		offset: offset * 12
+	});
+	
+	const {transactions: {pageInfo}}: {transactions: {pageInfo: {hasNextPage: boolean, hasPreviousPage: boolean}}} = data;
+	
+	let {transactions: {items: transactions}}: {transactions: {items: TTransaction[]}} = data;
 
 	return (
-		<>
+		<form action="/transactions" className="space-y-5" >
+			<div className="flex gap-5">
+				<select name="filter" id="filter" defaultValue={filter} className="select select-bordered w-fit max-w-ws">
+					<option disabled selected>Filter</option>
+					<option value="none">None</option>
+					<option value="withdraw">Withdraw</option>
+					<option value="deposit">Deposit</option>
+				</select>
+				<button type='submit' className="btn">Apply Filters</button>
+
+				<div className="grow flex justify-end gap-5">	
+					{pageInfo.hasPreviousPage && <button type='submit' name='offset' className='btn btn-sm' value={offset >= 1 ? offset - 1 : 0}><HiChevronDoubleLeft /></button>}
+					{pageInfo.hasNextPage && <button type='submit' name='offset' className='btn btn-sm' value={offset >= 0 ? offset + 1 : 0}><HiChevronDoubleRight /></button>}
+				</div>
+			</div>
+
 			<div className="overflow-x-auto">
 				<table className="table w-full">
 					<thead>
 						<tr>
+							<th>Type</th>
 							<th>From</th>
 							<th>To</th>
 							<th>Amount</th>
-							<th>Type</th>
 							<th>At</th>
 						</tr>
 					</thead>
@@ -24,17 +50,18 @@ export default async function Transactions() {
 						{transactions.map((t: TTransaction, i: number) => {
 							return (
 								<tr key={i}>
+									<td><TransactionFlag flag={t.flag} /></td>
 									<td>{t.fromAccount}</td>
 									<td>{t.toAccount}</td>
-									<td>{t.amount}</td>
-									<td>{t.flag}</td>
-									<td>{t.createdDate.toString()}</td>
+									<td>{toCurrency(t.amount)}</td>
+									<td>{formatDate(t.createdDate)}</td>
 								</tr>
 							);
 						})}
 					</tbody>
 				</table>
 			</div>
-		</>
+				
+		</form>
 	)
 }

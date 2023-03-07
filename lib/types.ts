@@ -5,4 +5,5 @@ export type TTransaction = {
 	amount: number;
 	flag: number;
 	createdDate: Date;
+	cursor: string;
 }
