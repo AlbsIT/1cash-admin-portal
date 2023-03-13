@@ -6,8 +6,8 @@ export default function DashboardLayout({
 		children: ReactNode
 	}) {
 	return (
-		<div>
-			<h1 className="text-2xl">Dashboard</h1>
+		<div className='space-y-5'>
+			<h1>Dashboard</h1>
 			{children}
 		</div>
 	)

@@ -1,5 +1,6 @@
 import Sidebar from '@/components/sidebar'
-import "../styles/globals.css"
+import { TLayoutParams } from '@/lib/types'
+import "../../styles/globals.css"
 
 export const metadata = {
   title: '1Cash Admin Portal',
@@ -8,14 +9,12 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: TLayoutParams) {
   return (
     <html lang="en">
       <body className="flex ">
         <Sidebar />
-        <div className="px-10 py-10 w-full">
+        <div className="bg-gray-50 px-10 py-10 w-full">
           {children}
         </div>
       </body>

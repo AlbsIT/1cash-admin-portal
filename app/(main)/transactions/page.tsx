@@ -1,28 +1,26 @@
 import { TransactionFlag } from "@/components/transaction-flag";
 import { gqlClient } from "@/lib/gql-client"
 import {getTransactions} from "@/lib/gql-queries"
-import { TTransaction } from "@/lib/types";
-import { formatDate, toCurrency } from "@/lib/utils";
+import { TQueryResult, TTransaction } from "@/lib/types";
+import { formatDate, PageParams, toCurrency } from "@/lib/utils";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 
-export default async function Transactions({searchParams}: {searchParams?: { [key: string]: string | string[] | undefined }}) {
+export default async function Transactions({searchParams}: PageParams) {
 	const filter = searchParams?.filter;
 	const offset = +(searchParams?.offset ?? 0);
 
-	const data: any = await gqlClient.request(getTransactions, {
+	const {transactions: data} = await gqlClient.request<any>(getTransactions, {
 		filter: filter ?? 'none',
 		offset: offset * 12
 	});
 	
-	const {transactions: {pageInfo}}: {transactions: {pageInfo: {hasNextPage: boolean, hasPreviousPage: boolean}}} = data;
+	const {pageInfo, items: transactions}: TQueryResult<TTransaction[]> = data;
 	
-	let {transactions: {items: transactions}}: {transactions: {items: TTransaction[]}} = data;
-
 	return (
 		<form action="/transactions" className="space-y-5" >
 			<div className="flex gap-5">
 				<select name="filter" id="filter" defaultValue={filter} className="select select-bordered w-fit max-w-ws">
-					<option disabled selected>Filter</option>
+					<option disabled>Filter</option>
 					<option value="none">None</option>
 					<option value="withdraw">Withdraw</option>
 					<option value="deposit">Deposit</option>

@@ -3,6 +3,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1, h2, h3, h4 {
+    @apply font-bold
+  }
+
+  h1 {
+    @apply text-2xl
+  }
+  
+  h2 {
+    @apply text-xl  
+  }
+  
+  button {
+    @apply btn btn-primary
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white p-5 rounded-md space-y-5
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

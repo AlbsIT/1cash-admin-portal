@@ -7,7 +7,7 @@ export default function TransactionsLayout({
 	}) {
 	return (
 		<div className="space-y-5">
-			<h1 className="text-2xl">Transactions</h1>
+			<h1>Transactions</h1>
 			{children}
 		</div>
 	)
