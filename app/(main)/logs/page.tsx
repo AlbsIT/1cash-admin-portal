@@ -1,5 +1,5 @@
 import { LogStatus } from "@/components/log-status";
-import { gqlClient } from "@/lib/gql-client";
+import { gqlRequest } from "@/lib/gql-client";
 import { getLogs } from "@/lib/gql-queries";
 import { TLog, TQueryResult } from "@/lib/types";
 import { PageParams, truncateString } from "@/lib/utils";
@@ -9,7 +9,7 @@ export default async function Logs({searchParams}: PageParams) {
 	const filter = searchParams?.filter ?? '';
 	const offset = +(searchParams?.offset ?? 0);
 	
-	const {logs: data} = await gqlClient.request<any>(getLogs, {
+	const {logs: data} = await gqlRequest(getLogs, {
 		offset: offset * 12
 	})
 	

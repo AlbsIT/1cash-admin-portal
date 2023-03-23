@@ -1,18 +1,22 @@
 import { TransactionFlag } from "@/components/transaction-flag";
-import { gqlClient } from "@/lib/gql-client"
+import { gqlRequest } from "@/lib/gql-client"
 import {getTransactions} from "@/lib/gql-queries"
 import { TQueryResult, TTransaction } from "@/lib/types";
 import { formatDate, PageParams, toCurrency } from "@/lib/utils";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 
-export default async function Transactions({searchParams}: PageParams) {
-	const filter = searchParams?.filter;
-	const offset = +(searchParams?.offset ?? 0);
-
-	const {transactions: data} = await gqlClient.request<any>(getTransactions, {
+const requestTransactions = async (offset: number, filter?: string, ) => {
+		return await gqlRequest(getTransactions, {
 		filter: filter ?? 'none',
 		offset: offset * 12
 	});
+}
+
+export default async function Transactions({searchParams}: PageParams) {
+	const filter = searchParams?.filter;
+	const offset = +(searchParams?.offset ?? 0);
+	
+	const {transactions: data} = await requestTransactions(offset, filter?.toString());
 	
 	const {pageInfo, items: transactions}: TQueryResult<TTransaction[]> = data;
 	

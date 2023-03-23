@@ -1,6 +1,6 @@
 import { LogStatus } from "@/components/log-status";
 import { RequestLog, RequestProperty } from "@/components/request-log";
-import { gqlClient } from "@/lib/gql-client";
+import { gqlRequest } from "@/lib/gql-client";
 import { getLog } from "@/lib/gql-queries";
 import { TLog, TQueryResult } from "@/lib/types";
 import { PageParams } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { PageParams } from "@/lib/utils";
 export default async function LogDetail({params}: PageParams) {
 	const {id} = params;
 	
-	const {logs: data} = await gqlClient.request<any>(getLog, {
+	const {logs: data} = await gqlRequest(getLog, {
 		 id: +id
 	})
 	

@@ -1,4 +1,4 @@
-import { gqlClient } from "@/lib/gql-client";
+import { gqlRequest } from "@/lib/gql-client";
 import { getAccounts } from "@/lib/gql-queries";
 import { TQueryResult, TUser } from "@/lib/types";
 import { formatDate, PageParams } from "@/lib/utils";
@@ -7,7 +7,7 @@ import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 export default async function Users({searchParams}: PageParams) {
 	const {offset, filter} = searchParams;
 	
-	const {accounts: data} = await gqlClient.request<any>(getAccounts, {
+	const {accounts: data} = await gqlRequest(getAccounts, {
 		offset: +(offset ?? 0) * 12
 	});
 	
