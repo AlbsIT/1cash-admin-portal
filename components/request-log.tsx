@@ -12,7 +12,7 @@ export const RequestLog = ({request}: {request: string}) => {
 				r.map((v, i) => (
 					<div key={i} className="columns-2">
 						<h3>{v.label}</h3>	
-						<p>{v.value}</p>
+						<p>{decodeURIComponent(v.value)}</p>
 					</div>
 				))
 			}
