@@ -54,7 +54,11 @@ query GetLog($id: Int!) {
 export const getStatistics = gql`
 	query GetStatistics() {
 		userStatistics {
-			monthlyActiveUsers
+			activeUsers {
+				lastMonth
+				thisMonth
+				monthly
+			}
 			registrations {
 				thisMonth
 				lastMonth
