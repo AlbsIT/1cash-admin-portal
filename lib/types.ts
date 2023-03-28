@@ -33,7 +33,11 @@ export type TLog = {
 }
 
 export type TStatistics = {
-	monthlyActiveUsers: number;
+	activeUsers: {
+		thisMonth: number;
+		lastMonth: number;
+		monthly: number;
+	};
 	registrations: {
 		thisMonth: number;
 		lastMonth: number;

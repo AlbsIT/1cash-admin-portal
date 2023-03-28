@@ -4,14 +4,14 @@ import { TStatistics } from "@/lib/types"
 import { HiChevronDoubleDown, HiChevronDoubleUp } from "react-icons/hi2";
 
 export const StatisticsCards = ({statistics}: {statistics: TStatistics}) => {
-	const {monthlyActiveUsers, registrations} = statistics;
+	const {activeUsers, registrations} = statistics;
 	
 	return (
 		<div className="flex gap-5">
 			<div className="stats shadow">	
 				<div className="stat">
 					<div className="stat-title">Monthly Active Users</div>
-					<div className="stat-value">{monthlyActiveUsers}</div>
+					<div className="stat-value">{activeUsers.monthlyActiveUsersmonthlyActiveUsers}</div>
 				</div>
 				<div className="stat">
 					<div className={`stat-figure ${registrations.difference < 0 ? 'text-error' : 'text-success'} text-2xl`}>{registrations.difference < 0 ? <HiChevronDoubleDown /> : <HiChevronDoubleUp />}</div>
