@@ -8,7 +8,7 @@ dayjs.locale('en-sg')
 export const toCurrency = (input: number): string => {
 	const formatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',
-		currency: 'PHP'
+		currency: 'USD'
 	});
 	
 	return formatter.format(input);
