@@ -11,7 +11,7 @@ export const StatisticsCards = ({statistics}: {statistics: TStatistics}) => {
 			<div className="stats shadow">	
 				<div className="stat">
 					<div className="stat-title">Monthly Active Users</div>
-					<div className="stat-value">{activeUsers.monthlyActiveUsersmonthlyActiveUsers}</div>
+					<div className="stat-value">{activeUsers.monthly}</div>
 				</div>
 				<div className="stat">
 					<div className={`stat-figure ${registrations.difference < 0 ? 'text-error' : 'text-success'} text-2xl`}>{registrations.difference < 0 ? <HiChevronDoubleDown /> : <HiChevronDoubleUp />}</div>
